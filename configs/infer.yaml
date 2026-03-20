@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - model: pt
+  - paths: default
+  - hydra: default
+
+task_name: "infer"
+
+tags: ["inference"]
+
+package: pyscf
+ckpt_path: null  # required, path to the checkpoint
+
+data_type: float32
+
+inference:
+  root: ${paths.data_dir}/dataset_infer
+  name: null  # required, dataset name (directory under root)
+  xyz_file: xtb_250ps.trj
+  full_orbitals: 18
+  batch_size: 1
+  num_workers: 4
+  f_thres: ${model.lit_cfg.f_thres}
+  eps: 0.000001
+
+extras:
+  ignore_warnings: true
+  enforce_tags: false
+  print_config: true
+  tf32: false

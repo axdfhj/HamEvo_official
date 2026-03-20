@@ -1,0 +1,33 @@
+_target_: src.data.data_lightning.DataModule
+
+dataset:
+  _target_: src.data.components.lmdb_datasets.QH9Loop
+  root: ${paths.data_dir}/qh9stable-simple
+  version: id
+  full_orbitals: 14
+  data_type: ${data_type}
+  get_ovlp: true
+
+
+train_cfg:
+  batch_size: 32
+  num_workers: 8
+  pin_memory: true
+  shuffle: true
+  mode: ${model.lit_cfg.train_mode}
+train_sampler: null
+
+val_cfg:
+  batch_size: 32
+  num_workers: 2
+  pin_memory: true
+  shuffle: false
+  mode: ${model.lit_cfg.val_mode}
+
+test_cfg:
+  batch_size: 1
+  num_workers: 8
+  pin_memory: true
+  shuffle: false
+  more_info: true
+  mode: ${model.lit_cfg.test_mode}

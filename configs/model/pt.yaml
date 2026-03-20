@@ -1,0 +1,39 @@
+defaults:
+  - gdb17_func
+  - solver
+  - utils
+
+_target_: src.models.deqham_module.DEQHamLitModule
+
+lit_cfg:
+  max_radius: ${model.net.max_radius}
+  max_num_neighbors: 200
+  train_mode: pt
+  val_mode: predict
+  test_mode: predict
+  f_thres: 20
+  b_thres: 20
+  order: 4
+  package: ${package}
+
+criterion:
+  _target_: src.models.components.criterion.MixedCrit # Option: ['MixedCrit', 'MSECrit']
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 1.0e-3
+  weight_decay: 0.0
+  betas: [0.99, 0.999]
+
+scheduler:
+  _target_: transformers.get_linear_schedule_with_warmup
+  _partial_: true
+  num_warmup_steps: 1000
+  num_training_steps: ${trainer.max_steps}
+  last_epoch: -1
+
+# compile model for faster training with pytorch 2.0
+compile: false
+
+ckpt_cfg: null  # optional, e.g. {ema_param: false, ckpt: ./logs/<run_name>/checkpoints/last.ckpt}

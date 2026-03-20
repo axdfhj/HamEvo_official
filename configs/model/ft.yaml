@@ -1,0 +1,22 @@
+defaults:
+  - pt
+
+lit_cfg:
+  train_mode: ft
+  val_mode: predict
+  rand_f_thres_delta: 3
+  jac_loss_freq: 0.0
+  jac_loss_weight: 0.005
+  dm_loss_weight: 0.01
+
+optimizer:
+  lr: 1.0e-4
+
+scheduler:
+  num_warmup_steps: 60
+  num_training_steps: ${trainer.max_steps}
+
+
+ckpt_cfg:
+  ema_param: true
+  ckpt: null  # set to your pretrained checkpoint path, e.g. ./logs/<run_name>/checkpoints/last.ckpt

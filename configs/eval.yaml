@@ -1,0 +1,24 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: md_data
+  - model: pt
+  - logger: null
+  - trainer: ddp
+  - paths: default
+  - extras: default
+  - hydra: default
+
+task_name: "eval"
+
+tags: ["dev"]
+
+package: pyscf
+ckpt_path: null  # required, e.g. ./logs/<run_name>/checkpoints/last.ckpt
+
+data_type: float32
+debug_mode: false
+
+extras:
+  tf32: false

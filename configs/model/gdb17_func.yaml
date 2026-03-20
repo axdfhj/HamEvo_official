@@ -1,0 +1,46 @@
+net:
+  _target_: src.models.components.equiformer_function.EquiformerFunction
+  irreps_node_embedding: '96x0e+96x1o+96x2e+96x3o+96x4e'
+  irreps_ham: '32x0e+32x1e+32x2e+32x3e+32x4e'
+  num_layers: 6
+  irreps_node_attr: '1x0e'
+  irreps_sh: '1x0e+1x1o+1x2e+1x3o+1x4e'
+  max_radius: 16
+  number_of_basis: 32
+  basis_type: 'exp'
+  fc_neurons: [64, 64]
+  irreps_feature: '512x0e'
+  irreps_head: '32x0e+32x1o+32x2e+32x3o+32x4e+32x5e'
+  irrep_bottle_hidden: '96x0e+96x1e+96x2e+96x3e+96x4e'
+  irreps_out: '4x0e+3x1e+1x2e'
+  num_heads: 2
+  irreps_pre_attn: null
+  rescale_degree: False
+  nonlinear_message: True
+  irreps_mlp_mid: '128x0e+128x1e+128x2e+128x3e+128x4e+128x5e'
+  use_attn_head: False
+  norm_layer: 'layer'
+  alpha_drop: 0.0
+  proj_drop: 0.0
+  out_drop: 0.0
+  drop_path_rate: 0.0
+  mean: null
+  std: null
+  scale: null
+  atomref: null
+  deq_func: True
+
+distance_expansion:
+  _target_: src.models.components.equiformer_function.ExpNormalSmearing
+  cutoff_lower: 0.0
+  cutoff_upper: ${model.net.max_radius}
+  num_rbf: ${model.net.number_of_basis}
+  trainable: False
+
+node_emb:
+  _target_: src.models.components.node_embedding.EquiformerEmbedding
+  number_of_basis: ${model.net.number_of_basis}
+  fc_neurons: ${model.net.fc_neurons}
+  irreps_node_embedding: ${model.net.irreps_node_embedding}
+  irreps_sh: ${model.net.irreps_sh}
+  dtype: ${data_type}

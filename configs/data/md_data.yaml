@@ -1,0 +1,35 @@
+_target_: src.data.data_lightning.DataModule
+
+dataset:
+  _target_: src.data.components.lmdb_datasets.CustomData
+  root: ${paths.application_dir}
+  data_type: ${data_type}
+  full_orbitals: 18
+  name: transition1x_ts
+  split_path: null  # optional, e.g. splits_20_clusters.pt
+  get_ovlp: true
+
+train_cfg:
+  batch_size: 2
+  num_workers: 12
+  pin_memory: true
+  persistent_workers: false
+  shuffle: true # matually exclusive with sampler
+  mode: ${model.lit_cfg.train_mode}
+
+train_sampler: null
+
+val_cfg:
+  batch_size: 5
+  num_workers: 2
+  pin_memory: true
+  shuffle: true
+  mode: ${model.lit_cfg.val_mode}
+
+test_cfg:
+  batch_size: 1
+  num_workers: 4
+  pin_memory: true
+  shuffle: False
+  more_info: true
+  mode: ${model.lit_cfg.test_mode}

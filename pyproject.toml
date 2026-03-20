@@ -1,0 +1,75 @@
+[tool.pytest.ini_options]
+addopts = [
+  "--color=yes",
+  "--durations=0",
+  "--strict-markers",
+  "--doctest-modules",
+]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::UserWarning",
+]
+log_cli = "True"
+markers = [
+  "slow: slow tests",
+]
+minversion = "6.0"
+testpaths = "tests/"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: nocover",
+    "raise NotImplementedError",
+    "raise NotImplementedError()",
+    "if __name__ == .__main__.:",
+]
+
+# ── Ruff ──────────────────────────────────────────────────────
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "F",      # pyflakes
+    "E", "W", # pycodestyle
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+    "RUF",    # ruff-specific rules
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "E741",   # ambiguous variable name (common in math/science code)
+    "F841",   # local variable assigned but never used (WIP code)
+    "B905",   # zip without strict (python 3.10+ specific)
+    "E402",   # module level import not at top (hydra/rootutils pattern)
+    "E731",   # lambda assignment (common in scientific code)
+    "E701",   # multiple statements on one line
+    "E722",   # bare except (legacy solver code)
+    "B006",   # mutable default arguments (torch module pattern)
+    "B007",   # unused loop variable (common iteration patterns)
+    "B023",   # function binding loop variable
+    "SIM105", # contextlib.suppress suggestion
+    "SIM108", # ternary operator suggestion (readability)
+    "SIM115", # context manager for open files
+    "SIM118", # use `key in dict` instead of `key in dict.keys()`
+    "RUF005", # list concatenation suggestion
+    "RUF013", # implicit Optional
+    "RUF059", # unpacked variable never used
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/utils/__init__.py" = ["F401"]  # re-exports
+"src/models/components/__init__.py" = ["F401"]
+"src/data/components/__init__.py" = ["F401"]
+"src/data/__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true

@@ -1,0 +1,41 @@
+_target_: src.data.data_lightning.DataModule
+
+dataset:
+  _target_: src.data.components.nabla_dft.NablaDFTData
+  root: ${paths.application_dir}
+  data_type: ${data_type}
+  full_orbitals: 18
+  root_train: ${db_root}/train_100k.db
+  root_val: ${db_root}/test_100k_conformers.db
+  root_test: ${db_root}/test_scaffolds.db  # alternatives: test_100k_conformers.db, test_structures.db
+  split_train: ${db_root}/train_100k_filter.pt
+  split_val: ${db_root}/test_100k_conformers_filter.pt
+  split_test: ${db_root}/test_structures.pt  # alternatives: test_100k_conformers_filter.pt
+  get_ovlp: true
+  unit_transfer: false
+
+package: ${package}
+
+train_cfg:
+  batch_size: 2
+  num_workers: 6
+  pin_memory: true
+  shuffle: true
+  mode: ${model.lit_cfg.train_mode}
+
+train_sampler: null
+
+val_cfg:
+  batch_size: 5
+  num_workers: 2
+  pin_memory: true
+  shuffle: false
+  mode: ${model.lit_cfg.val_mode}
+
+test_cfg:
+  batch_size: 1
+  num_workers: 0
+  pin_memory: true
+  shuffle: false
+  more_info: true
+  mode: ${model.lit_cfg.test_mode}
