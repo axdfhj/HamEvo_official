@@ -1,0 +1,16 @@
+f_solver:
+  _target_: src.utils.deq_lib.solvers.anderson
+  _partial_: true
+  m: 2
+  lam: 1.0e-4
+  threshold: 40
+  eps: 0.000001
+  stop_mode: abs
+  beta: 0.9
+
+b_solver:
+  _target_: src.utils.deq_lib.solvers.broyden
+  _partial_: true
+  eps: 0.0075
+  stop_mode: rel
+  threshold: ${model.lit_cfg.b_thres}

@@ -1,0 +1,24 @@
+_target_: pytorch_lightning.trainer.Trainer
+
+default_root_dir: ${paths.output_dir}
+
+
+accelerator: cpu
+devices: 1
+
+# mixed precision for extra speed-up
+precision: 64 # actually set by ${data_type}
+
+# perform a validation loop every N training epochs
+check_val_every_n_epoch: 12
+log_every_n_steps: 10
+val_check_interval: null  # optional, e.g. 0.10
+num_sanity_val_steps: 2
+limit_val_batches: 10
+limit_test_batches: 100
+
+# set True to to ensure deterministic results
+# makes training slower but gives more reproducibility than just setting seeds
+deterministic: False
+
+max_steps: 3000

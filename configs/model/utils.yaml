@@ -1,0 +1,9 @@
+ema:
+  _target_: torch_ema.ExponentialMovingAverage
+  _partial_: true
+  decay: 0.99
+
+clip_grad_norm:
+  _target_: src.utils.clip_grad_norm.ClipGradNorm
+  end_iteration: 300000 # always clipped
+  max_norm: 0.05

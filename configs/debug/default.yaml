@@ -1,0 +1,41 @@
+# @package _global_
+
+# default debugging setup, runs 1 full epoch
+# other debugging configs can inherit from this one
+
+# overwrite task name so debugging logs are stored in separate folder
+task_name: "debug"
+
+# disable callbacks and loggers during debugging
+callbacks: null
+logger: null
+
+extras:
+  ignore_warnings: true
+  enforce_tags: false
+  tf32: false
+
+# sets level of all command line loggers to 'DEBUG'
+# https://hydra.cc/docs/tutorials/basic/running_your_app/logging/
+hydra:
+  job_logging:
+    root:
+      level: DEBUG
+
+trainer:
+  max_epochs: 1
+  accelerator: gpu # debuggers don't like gpus
+  devices: -1 # debuggers don't like multiprocessing
+  detect_anomaly: false # raise exception if NaN or +/-inf is detected in any tensor
+  strategy: ddp
+  num_sanity_val_steps: 2
+
+data:
+  train_cfg:
+    num_workers: 6
+  val_cfg:
+    num_workers: 0
+
+model:
+  compile: false
+debug_mode: true
